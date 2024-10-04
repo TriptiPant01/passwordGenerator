@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import './App.css'
 
 function App() {
@@ -7,33 +7,33 @@ function App() {
   const [charAllowed, setCharAllowed] = useState(false)
   const [password, setPassword] = useState('')
 
-  const generatePassword = () =>
-    useCallback(() => {
-      let pass = ''
-      let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-      if (numberAllowed) str += '0123456789'
-      if (charAllowed) str += "!@#$%^&*()_+[]{}|;:',.<>?/~`-="
-      for (let i = 0; i < length; i++) {
-        const char = Math.floor(Math.random() * str.length + 1)
-        pass += str.charAt(char)
-      }
-      setPassword(pass)
-    }, [length, numberAllowed, charAllowed])
+  const generatePassword = useCallback(() => {
+    let pass = ''
+    let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    if (numberAllowed) str += '0123456789'
+    if (charAllowed) str += "!@#$%^&*()_+[]{}|;:',.<>?/~`-="
+    for (let i = 0; i < length; i++) {
+      const char = Math.floor(Math.random() * str.length + 1)
+      pass += str.charAt(char)
+    }
+    setPassword(pass)
+  }, [length, numberAllowed, charAllowed])
 
-  console.log(password, 'this is password')
+  useEffect(() => {
+    generatePassword()
+  }, [length, numberAllowed, charAllowed])
   return (
     <>
-      <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-800 text-orange-800">
-        <h1 className="text-white">Password Generator</h1>
+      <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-400 text-orange-800">
+        <h1 className="text-white mb-10">Password Generator</h1>
         <div className="flex shadow rounded-lg">
           <input
             type="text"
             value={password}
             placeholder="Password"
             readOnly
-            className="py-1 px-3"
+            className="py-1 px-3 bg-white-800 w-full rounded-md "
           />
-          <button onClick={() => generatePassword()}>Copy</button>
         </div>
         <div className="flex text-sm gap-x-2 my-3">
           <input
