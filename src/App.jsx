@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from 'react'
-import './App.css'
 
 function App() {
   const [length, setLength] = useState(10)
